@@ -1,4 +1,0 @@
-3
-Antoine 0 100
-Brigitte 100 -10
-Camille 50 50

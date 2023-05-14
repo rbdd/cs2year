@@ -1,6 +1,7 @@
 /*
  *  ============================================================================================
- *  A1.java : Extends JFrame and contains a panel where shapes move around on the screen.
+ *  A2.java : Extends JFrame and contains a panel where shapes move around on the screen.
+ * 	Brendan Choi
  *  YOUR UPI: mcho868
  *  ============================================================================================
  */
@@ -8,11 +9,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.FileNotFoundException;
-
-import javax.swing.event.*;
-import javax.xml.bind.ValidationEvent;
-
-import java.util.ArrayList;
 
 public class A2  extends JFrame {
 	private AnimationViewer panel;  // panel for bouncing area

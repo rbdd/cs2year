@@ -1,6 +1,7 @@
 /* ==============================================
  *	Shape.java : The superclass of all shapes.
  *	A shape defines various properties, including selected, colour, width and height.
+    BRendan Choi
  *	YOUR UPI: mcho868
  *	===============================================================================
  */

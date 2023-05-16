@@ -29,7 +29,6 @@ def merge(a, b):
             sorted.append(ax)
     return sorted
 #end functions_______________________________________
-
 lines = sys.stdin.readlines()
 l = []
 for x in range(1, int(lines[0])+1):
@@ -40,9 +39,3 @@ for x in range(1, int(lines[0])+1):
 sorted_names = mergesort(l)
 for name in sorted_names:
     print(name[0])
-
-
-
-        
-        
-

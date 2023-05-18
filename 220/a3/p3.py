@@ -1,4 +1,5 @@
 import sys
+import queue
 
 def inputReader():
     iteration = int(sys.stdin.readline().strip())
@@ -44,7 +45,6 @@ def BFS(digraph, arcN):
 arcSet, arcN = inputReader()
 while arcN != 0:
     d, pred = BFS(arcSet, arcN)
-    #print(pred)
     m = max(d)
     if pred == [None for x in range(len(pred))]:
         mnode = 1

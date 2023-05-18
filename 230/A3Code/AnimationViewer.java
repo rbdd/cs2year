@@ -95,6 +95,62 @@ class AnimationViewer extends JComponent implements Runnable {
 			currentShape.resetPanelSize(currentPanelWidth, currentPanelHeight);
 	}
 
+	//Q6-8 Q11
+	public class MyModel extends AbstractListModel<Shape> implements TreeModel{
+		private ArrayList<TreeModelListener> treeModelListeners = new ArrayList<TreeModelListener>();
+		private ArrayList<Shape> selectedShapes;
+		public MyModel(){selectedShapes = root.getAllInnerShapes();}
+		public int getSize(){return selectedShapes.size();}
+		public Shape getElementAt(int index){return selectedShapes.get(index);}
+		public void reload(NestedShape selected){
+			selectedShapes = new ArrayList<Shape>();
+			for (Shape s: selected.getAllInnerShapes()){
+				selectedShapes.add(s);
+				fireContentsChanged(this, 0, selectedShapes.size());
+			} 
+		}
+		public NestedShape getRoot(){return root;}
+		public boolean isLeaf(Object node){return !(node instanceof NestedShape);}
+		public boolean isRoot(Shape selectedNode){return selectedNode.equals(root);}
+		public Shape getChild(Object parent, int index){if (isLeaf(parent) || index >= ((NestedShape)parent).getAllInnerShapes().size()) return null; return ((NestedShape) parent).getInnerShapeAt(index);}
+		public int getChildCount(Object parent){if (isLeaf(parent)) return 0; return ((NestedShape) parent).getAllInnerShapes().size();}
+		public int getIndexOfChild(Object parent, Object child){if (isLeaf(parent)) return -1; return ((NestedShape) parent).indexOf((Shape)child);}
+		public void addTreeModelListener(final TreeModelListener tml) {treeModelListeners.add(tml);}
+		public void removeTreeModelListener(final TreeModelListener tml) {treeModelListeners.remove(tml);}
+		public void valueForPathChanged(TreePath path, Object newValue){}
+		public void fireTreeNodesInserted(Object source, Object[] path,int[] childIndices,Object[] children){
+			TreeModelEvent tme = new TreeModelEvent(source, path, childIndices, children);
+			for (TreeModelListener tml: treeModelListeners) tml.treeNodesInserted(tme);
+			System.out.printf("Called fireTreeNodesInserted: path=%s, childIndices=%s, children=%s\n", Arrays.toString(path), Arrays.toString(childIndices), Arrays.toString(children));
+		}
+		public void fireTreeNodesRemoved(Object source, Object[] path, int[] childIndices,Object[] children){
+			TreeModelEvent tme = new TreeModelEvent(source, path, childIndices, children);
+			for (TreeModelListener tml: treeModelListeners) tml.treeNodesRemoved(tme);
+			System.out.printf("Called fireTreeNodesRemoved: path=%s, childIndices=%s, children=%s\n", Arrays.toString(path), Arrays.toString(childIndices), Arrays.toString(children));
+		}
+		public void insertNodeInto(Shape newChild, NestedShape parent){
+			Object[] path = parent.getPath();
+			int[] ia = {parent.indexOf(newChild)};
+			Object[] oa = {newChild};
+			fireTreeNodesInserted(this, path, ia, oa);
+		}
+		public void removeNodeFromParent(Shape selectedNode){
+			NestedShape parent  = selectedNode.getParent();
+			Object[] path = parent.getPath();
+			int[] ia = {parent.indexOf(selectedNode)};
+			Object[] oa = {selectedNode};
+			parent.removeInnerShape(selectedNode);
+			fireTreeNodesRemoved(this, path, ia, oa);
+		}	
+		public void addShapeNode(NestedShape selectedNode){
+			Shape s;
+			if (isRoot(selectedNode)){s = selectedNode.createInnerShape(0, 0, currentWidth, currentHeight, currentColor, currentBorderColor, currentPathType, currentShapeType);}
+			else{s = selectedNode.createInnerShape(0, 0, selectedNode.width/2, selectedNode.height/2, selectedNode.color, selectedNode.borderColor, currentPathType, currentShapeType);}
+			insertNodeInto(s, selectedNode);
+		}	
+			
+ 	}
+
 	// you don't need to make any changes after this line ______________
 	public String getCurrentLabel() {return currentLabel;}
 	public int getCurrentHeight() { return currentHeight; }

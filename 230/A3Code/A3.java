@@ -11,6 +11,8 @@ import javax.swing.event.*;
 import java.util.ArrayList;
 import javax.swing.tree.*;
 
+import AnimationViewer.MyModel;
+
 public class A3  extends JFrame {
 	private AnimationViewer panel;  // panel for bouncing area
 	JButton addNodeButton, removeNodeButton, fillButton, borderButton;
@@ -85,17 +87,28 @@ public class A3  extends JFrame {
 		modelPanel.add(modelSplitPane);
 		return modelPanel;
 	}
-
-	class TreeNodeSelectionListener  implements TreeSelectionListener {
+	//Q12
+	class TreeNodeSelectionListener implements TreeSelectionListener {
 		public void valueChanged(TreeSelectionEvent e) {
+			if (tree.getLastSelectedPathComponent() instanceof NestedShape) panel.model.reload((NestedShape)tree.getLastSelectedPathComponent());
 		}
 	}
+	//Q9
 	class AddListener implements ActionListener {
 		public void actionPerformed( ActionEvent e) {
+			Object o = tree.getLastSelectedPathComponent();
+			if (o instanceof NestedShape){panel.model.addShapeNode((NestedShape) o);}
+			else if (o == null){JOptionPane.showMessageDialog(rootPane, e, "ERROR: No node selected.", ABORT, null);}
+			else{JOptionPane.showMessageDialog(rootPane, e, "ERROR: Must select a NestedShape node.", ABORT, null);}
 		}
 	}
+	//Q10
 	class RemoveListener implements ActionListener {
 		public void actionPerformed( ActionEvent e) {
+			Object o = tree.getLastSelectedPathComponent();
+			if (o == null){JOptionPane.showMessageDialog(rootPane, e, "ERROR: No node selected.", ABORT, null);}
+			else if ((panel.model.isRoot((Shape)o))){JOptionPane.showMessageDialog(rootPane, e, "ERROR: Must not remove the root.", ABORT, null);}
+			else {panel.model.removeNodeFromParent((Shape)o);}
 		}
 	}
 	public JPanel setUpToolsPanel() {

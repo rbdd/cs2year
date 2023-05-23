@@ -2,7 +2,7 @@
  * ==========================================================================================
  * AnimationViewer.java : Moves shapes around on the screen according to different paths.
  * It is the main drawing area where shapes are added and manipulated.
- * YOUR UPI:
+ * YOUR UPI: mcho868
  * ==========================================================================================
  */
 
@@ -27,6 +27,7 @@ class AnimationViewer extends JComponent implements Runnable {
 	private Color currentBorderColor = Shape.DEFAULT_BORDER_COLOR;
 	private int currentPanelWidth = Shape.DEFAULT_PANEL_WIDTH, currentPanelHeight = Shape.DEFAULT_PANEL_HEIGHT,currentWidth = Shape.DEFAULT_WIDTH, currentHeight = Shape.DEFAULT_HEIGHT;
 	private String currentLabel = Shape.DEFAULT_LABEL;
+	protected MyModel model;
 
 	//Q5 
 	protected NestedShape root;
@@ -34,7 +35,8 @@ class AnimationViewer extends JComponent implements Runnable {
 	public AnimationViewer() {
 		start();
 		addMouseListener(new MyMouseAdapter());
-		root = new NestedShape(Shape.DEFAULT_PANEL_WIDTH, Shape.DEFAULT_PANEL_HEIGHT); 
+		root = new NestedShape(Shape.DEFAULT_PANEL_WIDTH, Shape.DEFAULT_PANEL_HEIGHT);
+		model = new MyModel();
 	}
 	public void setCurrentLabel(String text) {
 		currentLabel = text;
@@ -75,7 +77,8 @@ class AnimationViewer extends JComponent implements Runnable {
 					found = true;
 				}
 			if (!found) {
-				root.createInnerShape(e.getX(), e.getY(), currentWidth, currentHeight, currentColor, currentBorderColor, currentPathType, currentShapeType);
+				Shape s = root.createInnerShape(e.getX(), e.getY(), currentWidth, currentHeight, currentColor, currentBorderColor, currentPathType, currentShapeType);
+				model.insertNodeInto(s, root);
 			}
 		}
 	}

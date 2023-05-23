@@ -45,10 +45,11 @@ class NestedShape extends RectangleShape{
         g.setColor(Color.BLACK);
         g.drawRect(x, y, width, height);
         g.translate(x, y);
-        for (Shape innerShape: innerShapes){           
+        for (Shape innerShape: innerShapes){      
+            //Fixed because of the annoucement      
             innerShape.draw(g);
-            if(innerShape.isSelected()) innerShape.drawHandles(g);
-            innerShape.setLabel(label);              
+            innerShape.drawHandles(g);
+            innerShape.drawString(g);             
         }
         g.translate(-x, -y);  
     }

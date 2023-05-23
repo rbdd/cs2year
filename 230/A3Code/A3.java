@@ -1,7 +1,7 @@
 /*
  *  ============================================================================================
- *  A1.java : Extends JFrame and contains a panel where shapes move around on the screen.
- *  YOUR UPI: ANSWER
+ *  A3.java : Extends JFrame and contains a panel where shapes move around on the screen.
+ *  YOUR UPI: mcho868
  *  ============================================================================================
  */
 import javax.swing.*;
@@ -11,7 +11,7 @@ import javax.swing.event.*;
 import java.util.ArrayList;
 import javax.swing.tree.*;
 
-import AnimationViewer.MyModel;
+//import AnimationViewer.MyModel;
 
 public class A3  extends JFrame {
 	private AnimationViewer panel;  // panel for bouncing area
@@ -61,8 +61,8 @@ public class A3  extends JFrame {
 		JPanel listPanel = new JPanel(new BorderLayout());
 		treePanel.setPreferredSize(new Dimension(Shape.DEFAULT_PANEL_WIDTH, Shape.DEFAULT_PANEL_HEIGHT/2));
 		listPanel.setPreferredSize(new Dimension(Shape.DEFAULT_PANEL_WIDTH, Shape.DEFAULT_PANEL_HEIGHT/2));
-		//tree = new JTree(panel.model);
-		tree = new JTree();
+		tree = new JTree(panel.model);
+		//tree = new JTree();
 		tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		tree.setShowsRootHandles(true);
 		tree.addTreeSelectionListener(new TreeNodeSelectionListener ());
@@ -76,8 +76,8 @@ public class A3  extends JFrame {
 		treeButtonsPanel.add(removeNodeButton);
 		treePanel.add(treeButtonsPanel,BorderLayout.NORTH);
 		treePanel.add(treeScrollpane,BorderLayout.CENTER);
-		shapesList = new JList<Shape>();
-		//shapesList = new JList<Shape>(panel.model);
+		//shapesList = new JList<Shape>();
+		shapesList = new JList<Shape>(panel.model);
 		listPanel.add(shapesList);
 		JPanel modelPanel = new JPanel();
 		JSplitPane modelSplitPane =  new JSplitPane(JSplitPane.VERTICAL_SPLIT, treePanel, listPanel);
@@ -98,16 +98,16 @@ public class A3  extends JFrame {
 		public void actionPerformed( ActionEvent e) {
 			Object o = tree.getLastSelectedPathComponent();
 			if (o instanceof NestedShape){panel.model.addShapeNode((NestedShape) o);}
-			else if (o == null){JOptionPane.showMessageDialog(rootPane, e, "ERROR: No node selected.", ABORT, null);}
-			else{JOptionPane.showMessageDialog(rootPane, e, "ERROR: Must select a NestedShape node.", ABORT, null);}
+			else if (o == null){JOptionPane.showMessageDialog(rootPane,"ERROR: No node selected.");}
+			else{JOptionPane.showMessageDialog(rootPane, "ERROR: Must select a NestedShape node.");}
 		}
 	}
 	//Q10
 	class RemoveListener implements ActionListener {
 		public void actionPerformed( ActionEvent e) {
 			Object o = tree.getLastSelectedPathComponent();
-			if (o == null){JOptionPane.showMessageDialog(rootPane, e, "ERROR: No node selected.", ABORT, null);}
-			else if ((panel.model.isRoot((Shape)o))){JOptionPane.showMessageDialog(rootPane, e, "ERROR: Must not remove the root.", ABORT, null);}
+			if (o == null){JOptionPane.showMessageDialog(rootPane, "ERROR: No node selected.");}
+			else if ((panel.model.isRoot((Shape)o))){JOptionPane.showMessageDialog(rootPane, "ERROR: Must not remove the root.");}
 			else {panel.model.removeNodeFromParent((Shape)o);}
 		}
 	}
